@@ -34,6 +34,10 @@ void ASprungWheel::BeginPlay()
 	Wheel->SetNotifyRigidBodyCollision(true);
 	Wheel->OnComponentHit.AddDynamic(this, &ASprungWheel::OnHit);
 
+	Wheel->SetVisibility(false, true);
+	Axle->SetVisibility(false, true);
+	AxleWheelConstraint->SetVisibility(false, true);
+
 	SetupConstraint();
 }
 
@@ -64,7 +68,7 @@ void ASprungWheel::AddDrivingForce(float ForceMagnitude)
 
 void ASprungWheel::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Hit"));
+	//UE_LOG(LogTemp, Warning, TEXT("Hit"));
 	ApplyForce();
 }
 

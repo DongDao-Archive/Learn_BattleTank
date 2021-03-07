@@ -33,7 +33,7 @@ public:
 	void AimAt(FVector HitLocation);
 
 	UFUNCTION(BlueprintCallable, Category = "Firing")
-	void Fire();
+	bool Fire();
 
 	EFiringState GetFiringState() const;
 

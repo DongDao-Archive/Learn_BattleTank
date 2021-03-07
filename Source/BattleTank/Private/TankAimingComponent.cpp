@@ -114,13 +114,17 @@ void UTankAimingComponent::MoveBarrelTowards(FVector TargetAimDirection)
 	}
 }
 
-void UTankAimingComponent::Fire()
+bool UTankAimingComponent::Fire()
 {
 	if (FiringState == EFiringState::Locked || FiringState == EFiringState::Aiming)
 	{
 		// Spawn a projectile at the socket location on the barrel
-		if (!ensure(Barrel)) { return ; }
-		if (!ensure(ProjectileBlueprint)) { return ; }
+		if (!ensure(Barrel)) { 
+			UE_LOG(LogTemp, Warning, TEXT("missing barrel"));
+			return false; }
+		if (!ensure(ProjectileBlueprint)) { 
+			UE_LOG(LogTemp, Warning, TEXT("missing projectile blueprint"));
+			return false; }
 		auto Projectile = GetWorld()->SpawnActor<AProjectile>(
 			ProjectileBlueprint,
 			Barrel->GetSocketLocation(FName("Projectile")),
@@ -130,6 +134,9 @@ void UTankAimingComponent::Fire()
 		Projectile->LaunchProjectile(LaunchSpeed);
 		LastFireTime = FPlatformTime::Seconds();
 		RoundsLeft--;
+		UE_LOG(LogTemp, Warning, TEXT("Fired"));
+		return true;	
 	}
+	else { return false; }
 }
 
